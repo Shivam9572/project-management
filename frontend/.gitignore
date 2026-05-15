@@ -148,7 +148,7 @@ docker-compose.override.yml
 .secrets
 
 # Bundle analysis
-*.html
+
 report.html
 stats.json
 
