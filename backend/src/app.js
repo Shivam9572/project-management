@@ -37,6 +37,9 @@ app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.get('/', (req, res) => {
+  res.send('TaskFlow Backend Running');
+});
 
 // Health check
 app.get('/health', (req, res) => {
@@ -49,8 +52,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: 'Something went wrong!', error: err.message });
 });
 
-// 404 handlerapp.use((req, res) => {
+
+// 404 handler
+app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
+});
 
 
 const PORT = process.env.PORT || 5000;
@@ -63,7 +69,7 @@ const startServer = async () => {
     await sequelize.sync({ alter: true });
     console.log('Database synced');
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
