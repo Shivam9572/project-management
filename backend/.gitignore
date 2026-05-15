@@ -57,12 +57,11 @@ coverage/
 *.db-journal
 
 # Sequelize
-.sequelizerc
+
 config/config.json
-migrations/*.js
-!migrations/sample.js
-seeders/*.js
-!seeders/sample.js
+
+
+
 
 # Upload directories
 uploads/
