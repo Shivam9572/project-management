@@ -65,3 +65,13 @@ TaskFlow is a comprehensive task management solution that provides role-based ac
 ```bash
 git clone https://github.com/yourusername/taskflow.git
 cd taskflow
+
+backend setup
+
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your database credentials
+npm run migrate
+npm run seed
+npm run dev

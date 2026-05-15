@@ -33,3 +33,33 @@
     @apply bg-primary-50 text-primary-600;
   }
 }
+
+/* Toggle Switch CSS */
+.toggle {
+  @apply relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2;
+}
+
+.toggle:checked {
+  @apply bg-primary-600;
+}
+
+.toggle:not(:checked) {
+  @apply bg-gray-300;
+}
+
+.toggle:before {
+  content: "";
+  @apply absolute left-0.5 bg-white w-5 h-5 rounded-full transition-transform;
+}
+
+.toggle:checked:before {
+  transform: translateX(1.25rem);
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
