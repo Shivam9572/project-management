@@ -24,8 +24,7 @@ RUN chmod +x /docker-entrypoint.sh
 
 EXPOSE 80
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost/ || exit 1
+
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
