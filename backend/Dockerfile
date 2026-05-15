@@ -1,40 +1,18 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
+# Install dumb-init for proper signal handling
+RUN apk add --no-cache dumb-init
 
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY sequelize-cli ./
 
-# Install dependencies
+# Install dependencies (sequelize-cli will be installed from package.json)
 RUN npm ci --only=production
 
 # Copy source code
 COPY . .
-
-# Production stage
-FROM node:20-alpine
-
-WORKDIR /app
-
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-# Copy from builder
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
-COPY --from=builder --chown=nodejs:nodejs /app/src ./src
-COPY --from=builder --chown=nodejs:nodejs /app/migrations ./migrations
-COPY --from=builder --chown=nodejs:nodejs /app/seeders ./seeders
-COPY --from=builder --chown=nodejs:nodejs /app/.sequelizerc ./
-
-# Switch to non-root user
-USER nodejs
 
 # Expose port
 EXPOSE 5000
@@ -46,5 +24,5 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Use dumb-init to handle signals properly
 ENTRYPOINT ["dumb-init", "--"]
 
-# Start command with migrations
-CMD sh -c "npm run migrate && npm run seed && npm start"
+# Start the app
+CMD ["npm", "start"]
